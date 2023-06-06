@@ -1,0 +1,1 @@
+print("My poem must have a meter\n\tAnd it also has to rhyme,\n\tIt's due tomorrow morning...\nHow I wish I had more time!\n\tI do not think that I can write\n\tA poem the way I should —\nBut look...this is a poem right here,\n\tAnd it is pretty good.")
