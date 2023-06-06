@@ -1,0 +1,59 @@
+There are two terms that are needed to be understood first, which are "Solution" and the "Cost/Fitness Function"
+Is problem k liye, let's just say that our N = 5 (that is, its a 5x5 Board with 5 Queens on it) 
+The "solution" for your N-Queen Problem would be a board that is of 5x5 board and that will have 5 Queens placed on it on different positions... 
+The positions in which the queens are placed don't matter. Even if you place them straight in a row, it would still be a considered a solution (however, a bad solution because all queens can attack each other in this state. But it is still considered a "solution" and it will be in the State Search Space as well) 
+
+Furthermore, there are two types of Solutions. One is Valid Solution, other is invalid Solution. Invaid solution for this N-Queen Problem would be a solution in which any two queens would be placed in "SAME" position (that is, let's say Q1 and Q2 both are placed on [1][1] position. In this case, only four queens would be visible on your Board and that makes it an invalid solution because for your problem, it is a requirement that all 5 queens must be on the Board) 
+
+Valid solution can be any solution which doesn't violate the above condition (or any other MUST condition that a problem has) 
+
+Your task is to find the "Optimal" or a "Good" Solution. An optimal solution for N-Queen Problem would be a solution in which all the Queens would be placed in the Board in such a way that No Queen is attacking any other Queen. This would be considered the "Best/Optimal" solution for your problem (It is possible that there are multiple optimal solutions in your problem. Finding any one of them is good enough and in some problems, finding a good solution is also ok) 
+
+Now comes that how would you "evaluate" any solution? How can we say that this solution is bad solution and the other one is optimal or good solution. 
+You will need to make "Cost/Fitness Function" For that. 
+Fitness function will take one argument, which would be a "Solution" that you have made for your problem. (In your case, a solution would be a 5x5 board with 5 Queens placed on different positions) 
+and then this fitness function will find out the number of Queens that are attacking each other. 
+
+For N-Queen Problem, fitness function can be implemented in two ways, 
+
+1. Find out the number of queens that are attacking each other. That is, higher number of queens are attacking each other, "worse" the solution would be (so you would want to MINIMIZE your Fitness Function, that is, you want a solution for which your fitness function returns a LOW value or in best scenario, a value of zero) 
+
+2. Second way is to find the number of queens that are NOT attacking each other. In this case, higher number of queens not attacking each other would mean your solution is a good solution. If all queens are not attacking each other, then you have found an optimal solution. If all queens are attacking each other, then your solution is one of the worst solutions. In this case, you want to MAXIMIZE your Fitness function (that is, you want a solution which when sent to your Fitness Function returns the MAXIMUM value possible) 
+
+
+Now that the two terms are understood, you need to understand how Simulated Annealing works. 
+
+Simulated Annealing has few steps, 
+
+1. Define Temperature and Cooling Rate
+2. Make a Random Solution (save it in Current Solution variable as well as Best Solution variable) 
+(Best Solution variable is made for a reason) 
+// A random solution is basically created randomly. It can be any solution, like maybe on 5x5 board, you place all your queens on Diagonal positions, or in a single row, or in any random positions or whatever way you would like to do it. 
+Check this Youtube link: https://www.youtube.com/watch?v=FsJ8npn8z2w
+Notice how he's making the "first Random Solution" (he placed all the queens in the diagonal positions). It's entirely up to you how you want to do this. (However, a point to note here is this that Simulated annealing is a Local Search Algorithm. Local Search Algorithm are usually very dependent upon how good of a "Random Solution" is, so if you can then try to create a good solution at the very start. But this is not necessary at all, particularly for this assignment. What is required of you is good implementation of Simulated Annealing. Whether it gives a good result or not, doesn't really matter) 
+3. Find the Cost of the Random Solution (and save it in Current Solution's Cost as well as Best Solution's Cost)
+3. While Temperature greater than 1 
+3.1. Change your Current solution by making any random change. This random change can be any and you will have to decide by yourself that how you want to define this function (which will make a random change in your current solution) 
+For example, a random change could be swapping the positions of two Random Queens on your board, or it could be changing the position of one queen randomly on board (but make sure that the queen doesn't overlap any other queen on the board otherwise the solution would become invalid) 
+For more understanding of how you can create a random change in your solution,  you can also read this: https://stackoverflow.com/questions/45449762/how-to-find-neighboring-solutions-in-simulated-annealing
+
+It tells multiple ways that you can use to introduce a random change in your solution. 
+
+3.2. Now that a new solution is created (by introducing the random change in your current solution), find out the new solution's Fitness Value
+
+3.3. If the new solution's fitness value is better than current solution's fitness value then, 
+3.3.1 Change Current Solution to New Solution, and also Current Solution's Cost to New Solution's Cost 
+3.3.2 Also change Best Solution and Best Cost to New Solution and its cost (because this new solution is better than the last current solution and so until this point, it is the best solution) 
+
+3.4. if the cost is not better than new solution's cost, 
+3.4.1 Use the probability formula for Simulated Annealing and if it accepts this new solution, then change current solution to this new solution (this new solution is worse than the current solution but to avoid falling into local optimal, Simulated Annealing still accepts this new solution as current solution) 
+However, you do not change BEST SOLUTION here because this solution isn't better than the current solution 
+
+3.5. Decrement the Temperature value by CoolingRate 
+
+While Loop Ends 
+
+4. Return the Best Solution and the Best Solution Cost Value (Simulated Annealing Function ends) 
+
+So, now your while loop will keep on running until the temperature has gone down to zero. The value you set for temperature and coolingRate is totally dependent upon you and how long you want function to work. It will vary problem to problem. 
+Also, you can put another condition in while loop that if the best solution's cost has gone to "Zero" (that is an optimal solution is found) then there's no need to proceed further and just "break" the while loop and return the Best Solution and its Cost.
